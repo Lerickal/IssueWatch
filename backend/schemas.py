@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field, validator
 from typing import Optional
 from datetime import datetime, timedelta
 from models import IssueStatus, UserRole
@@ -32,6 +32,7 @@ class IssueOut(IssueBase):
     status: IssueStatus
     created_at: datetime
     reporter: UserOut
+    assigned_to: Optional[UserOut] = None
     
     class Config:
         orm_mode = True
@@ -42,4 +43,18 @@ class Token(BaseModel):
     
 class TokenData(BaseModel):
     emaill: str | None = None
+    
+class GuestIssueCreate(BaseModel):
+    first_name: str = Field(..., min_length=1)
+    last_name: str = Field(..., min_length=1)
+    emaill: EmailStr
+    title: str = Field(..., min_length=1)
+    description: str = Field(..., min_length=1)
+    
+    @validator('*', pre=True, always=True)
+    def not_empty(cls, v):
+        if isinstance(v, str) and not v.strip():
+            raise ValueError("Field cannot be empty or whitespace")
+        
+        return v
     

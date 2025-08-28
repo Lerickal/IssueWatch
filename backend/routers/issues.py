@@ -7,6 +7,7 @@ router = APIRouter()
 
 def get_db():
     db = database.SessionLocal()
+    
     try:
         yield db
     finally:
@@ -24,3 +25,7 @@ def create_issue(issue: schemas.IssueCreate, db: Session = Depends(get_db)):
 def update_issue(issue_id: int, status: str, db: Session = Depends(get_db), 
                  current_user = Depends(get_current_support_user)):
     return crud.update_issue_status(db, issue_id, status)
+
+@router.get("/issues/my", response_model=list[schemas.IssueOut])
+def list_my_issues(db: Session = Depends(get_db), current_user= Depends(get_current_support_user)):
+    return crud.get_issues_by_support(db, current_user.id)

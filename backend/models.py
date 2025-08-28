@@ -36,5 +36,9 @@ class Issue(Base):
     status = Column(Enum(IssueStatus), nullable=False, default=IssueStatus.open)
     created_at = Column(TIMESTAMP, server_default=func.now())
     
+    assigned_to_id = Column(Integer, ForeignKey("user.id"), nullable=True)
+    
     reporter = relationship("User", back_populates="issues")
+    
+    assigned_to = relationship("User", foreign_keys=[assigned_to_id])
     
