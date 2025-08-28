@@ -38,7 +38,7 @@ class IssueOut(IssueBase):
         
 class Token(BaseModel):
     access_token: str
-    token_type: str = "porter"
+    token_type: str = "Porter"
     
 class TokenData(BaseModel):
     emaill: str | None = None
