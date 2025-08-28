@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
-from datetime import datetime
+from datetime import datetime, timedelta
 from models import IssueStatus, UserRole
 
 class UserBase(BaseModel):
@@ -36,3 +36,10 @@ class IssueOut(IssueBase):
     class Config:
         orm_mode = True
         
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "porter"
+    
+class TokenData(BaseModel):
+    emaill: str | None = None
+    
