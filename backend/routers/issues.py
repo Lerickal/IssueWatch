@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy import Session
+from auth import get_current_support_user
 import schemas, crud, database
 
 router = APIRouter()
@@ -20,5 +21,6 @@ def create_issue(issue: schemas.IssueCreate, db: Session = Depends(get_db)):
     return crud.create_issue(db, issue)
 
 @router.put("/issues/{issue_id}", response_model=schemas.IssueOut)
-def update_issue(issue_id: int, status: str, db: Session = Depends(get_db)):
+def update_issue(issue_id: int, status: str, db: Session = Depends(get_db), 
+                 current_user = Depends(get_current_support_user)):
     return crud.update_issue_status(db, issue_id, status)
