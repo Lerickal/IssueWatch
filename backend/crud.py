@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from auth import get_hashed_password
+from auth import get_hashed_password, verify_password
 import models, schemas, random
 
 def get_users(db: Session):

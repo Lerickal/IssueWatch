@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy import Session
+from sqlalchemy.orm import Session
 from auth import get_current_support_user
 import schemas, crud, database
 
