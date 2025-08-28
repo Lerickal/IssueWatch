@@ -1,6 +1,5 @@
 from sqlalchemy.orm import Session
-from auth import get_hashed_password, verify_password
-import models, schemas, random
+import models, schemas, auth, random
 
 def get_users(db: Session):
     return db.query(models.User).all()
@@ -15,7 +14,7 @@ def create_user(db: Session, user: schemas.UserCreate):
     user_data = user.dict()
     
     if user_data.get("password"):
-        user_data["password"] = get_hashed_password(user.password)
+        user_data["password"] = auth.get_hashed_password(user.password)
         
     db_user = models.User(**user.dict())
     db.add(db_user)
