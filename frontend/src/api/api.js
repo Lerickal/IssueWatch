@@ -12,13 +12,13 @@ export const loginSupportStaff = async (data) => {
 
 export const getMyIssues = async (token) => {
     return await axios.get(`${API_URL}/issues/my`, {
-        headers: {Authorization: `Porter ${token}`}
+        headers: {Authorization: `bearer ${token}`}
     });
 };
 
 export const updateIssueStatus = async (id, status, token) => {
     return await axios.put(`${API_URL}/issues/${id}`, null, {
-        params: {status}, headers: {Authorization: `Porter ${token}`}
+        params: {status}, headers: {Authorization: `bearer ${token}`}
     });
 };
 
