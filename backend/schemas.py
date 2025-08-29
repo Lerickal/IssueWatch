@@ -4,9 +4,9 @@ from datetime import datetime, timedelta
 from models import IssueStatus, UserRole
 
 class UserBase(BaseModel):
-    first_name = str
-    last_name = str
-    emaill = EmailStr
+    first_name: str
+    last_name: str
+    emaill: EmailStr
     
 class UserCreate(UserBase):
     role: UserRole = UserRole.guest
@@ -25,7 +25,7 @@ class IssueBase(BaseModel):
     description: str
     
 class IssueCreate(IssueBase):
-    reporter_id: int
+    reporter_id: Optional[int] = None
     
 class IssueOut(IssueBase):
     id: int
@@ -39,7 +39,7 @@ class IssueOut(IssueBase):
         
 class Token(BaseModel):
     access_token: str
-    token_type: str = "Porter"
+    token_type: str = "bearer"
     
 class TokenData(BaseModel):
     emaill: str | None = None

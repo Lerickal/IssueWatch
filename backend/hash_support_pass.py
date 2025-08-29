@@ -1,3 +1,4 @@
+'''
 import auth
 
 emaills = {
@@ -12,3 +13,4 @@ emaills = {
 for emaills, plain, in emaills.items():
     hashed = auth.get_hashed_password(plain)
     print(f"Update users SET password = '{hashed}' WHERE emaill = '{emaill}';")
+'''

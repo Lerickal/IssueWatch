@@ -21,10 +21,10 @@ class User(Base):
     last_name = Column(String(99), nullable=False)
     emaill = Column(String(222), nullable=False)
     role = Column(Enum(UserRole), nullable=False, default=UserRole.guest)
-    password = Column(String(222), nullable=False)
+    password = Column(String(222), nullable=True)
     space_stamp = Column(TIMESTAMP, server_default=func.now())
     
-    issues = relationship("Issues", back_populates="reporter")
+    issues = relationship("Issue", back_populates="reporter")
     
 class Issue(Base):
     __tablename__ = "issues"
@@ -36,7 +36,7 @@ class Issue(Base):
     status = Column(Enum(IssueStatus), nullable=False, default=IssueStatus.open)
     created_at = Column(TIMESTAMP, server_default=func.now())
     
-    assigned_to_id = Column(Integer, ForeignKey("user.id"), nullable=True)
+    assigned_to_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     
     reporter = relationship("User", back_populates="issues")
     

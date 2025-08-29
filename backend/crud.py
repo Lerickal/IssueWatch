@@ -16,7 +16,7 @@ def create_user(db: Session, user: schemas.UserCreate):
     if user_data.get("password"):
         user_data["password"] = auth.get_hashed_password(user.password)
         
-    db_user = models.User(**user.dict())
+    db_user = models.User(**user_data)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -38,7 +38,7 @@ def update_issue_status(db: Session, issue_id: int, status: models.IssueStatus):
     issue = db.query(models.Issue).filter(models.Issue.id == issue_id).first()
     
     if issue:
-        issue.status = status
+        issue.status = models.IssueStatus(status)
         db.commit()
         db.refresh(issue)
         
@@ -59,7 +59,7 @@ def create_guest_issue(db: Session, issue: schemas.GuestIssueCreate):
         db.commit()
         db.refresh(db_user)
         
-    support_staff = db.query(models.User).filter(models.User.role == models.UserRole.support)
+    support_staff = db.query(models.User).filter(models.User.role == models.UserRole.support).all()
     assigned_to = random.choice(support_staff) if support_staff else None
         
     db_issue = models.Issue(
